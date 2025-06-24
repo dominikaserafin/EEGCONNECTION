@@ -1,0 +1,44 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build BrainAccess EEG App",
+            "type": "shell",
+            "command": "g++",
+            "args": [
+                "-g",
+                "-std=c++17",
+                "-Wall",
+                "-Wl,--subsystem,console",
+                "-I${workspaceFolder}/include",
+                "-I${workspaceFolder}/include/core",
+                "-I${workspaceFolder}/include/bciconnect",
+                "${workspaceFolder}/src/main.cpp",
+                "${workspaceFolder}/lib/bacore.lib",
+                "${workspaceFolder}/lib/babciconnect.dll",
+                "-o",
+                "${workspaceFolder}/build/eeg_app.exe"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": ["$gcc"],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Build BrainAccess EEG application"
+        },
+        {
+            "label": "Copy DLLs and Run",
+            "type": "shell",
+            "command": "cmd",
+            "args": [
+                "/c",
+                "copy lib\\*.dll build\\ && build\\eeg_app.exe"
+            ],
+            "dependsOn": "Build BrainAccess EEG App",
+            "group": "build"
+        }
+    ]
+}
